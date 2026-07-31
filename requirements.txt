@@ -1,0 +1,11 @@
+streamlit
+langchain
+langchain-community
+langchain-google-genai
+faiss-cpu
+sentence-transformers
+pydantic
+python-dotenv
+pillow
+requests
+json-repair
