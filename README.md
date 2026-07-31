@@ -47,7 +47,7 @@ Clarivo/
 ## Installation & Setup
 
 1.  **Clone the Repository:**
-    git clone https://github.com/yourusername/clarivo.git
+    git clone [https://github.com/yourusername/clarivo.git](https://github.com/Mahmoud-Abo-Elnaga484/Clarivo-Ai)
     cd clarivo
 
 2.  **Create a Virtual Environment:**
