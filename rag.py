@@ -20,10 +20,7 @@ def _strip_cjk_characters(text: str) -> str:
 
 
 def _flatten_to_text(value) -> str:
-    """
-    لو الموديل رجع object/list متداخل بدل نص بسيط، بتحول القيمة لنص واحد مقروء
-    بدل ما نرفضها كلها ونروح للـ fallback.
-    """
+   
     if isinstance(value, str):
         return value
     if isinstance(value, dict):
@@ -38,7 +35,7 @@ def _flatten_to_text(value) -> str:
 
 
 def _flatten_to_string_list(value) -> list:
-    """بتحول أي قيمة (نص/object/list) لقائمة نصوص، بدل رفض الحقل بالكامل."""
+    
     if value is None:
         return []
     if isinstance(value, list):
@@ -54,7 +51,6 @@ def _flatten_to_string_list(value) -> list:
     return [_flatten_to_text(value)]
 
 
-# أسماء بديلة شائعة ممكن الموديل يكتبها غلط بدل المفتاح الصح
 _KEY_ALIASES = {
     "lesson": "lesson",
     "goal": "goal",
@@ -99,7 +95,6 @@ def _normalize_plan_dict(raw_data: dict, questions: list) -> dict:
         "estimated_time": _flatten_to_text(normalized.get("estimated_time", "Unknown")) or "Unknown",
     }
 
-    # تطبيع answers بشكل منفصل عشان لازم تبقى list of dicts بمفاتيح محددة
     raw_answers = normalized.get("answers", [])
     fixed_answers = []
     if isinstance(raw_answers, list):
@@ -110,7 +105,6 @@ def _normalize_plan_dict(raw_data: dict, questions: list) -> dict:
                     "answer": _flatten_to_text(item.get("answer", "")),
                     "explanation": _flatten_to_text(item.get("explanation", "")),
                 })
-    # لو الـ answers فاضية أو ناقصة أسئلة، كمّل الباقي من النص المتاح
     if len(fixed_answers) < len(questions):
         for q in questions[len(fixed_answers):]:
             fixed_answers.append({"question": q, "answer": "", "explanation": ""})
@@ -131,8 +125,7 @@ def _parse_json_from_text(text: str) -> dict:
     try:
         return json.loads(text)
     except json.JSONDecodeError:
-        # الموديلات أحياناً بترجع JSON فيه quotes/commas/brackets مكسورة.
-        # json_repair بيصلح المشاكل الشائعة تلقائياً بدل ما نرمي fallback مباشرة.
+    
         repaired = repair_json(text)
         return json.loads(repaired)
 
@@ -214,14 +207,12 @@ IMPORTANT RULES:
     print("\n[Info] Sending Request to Qwen (Kaggle) to generate plan...")
 
     try:
-        # تم تحديد التوكنز برقم ثابت لتجنب مشكلة الـ Out of Memory (OOM) في Kaggle
         estimated_tokens = 1024
 
         content_text = call_local_llm(prompt_value, max_new_tokens=estimated_tokens, temperature=0.2)
         content_text = _strip_cjk_characters(content_text)
         print(f"[Debug] Response content preview: {content_text[:200]}...")
 
-        # الطريقة الأولى: PydanticOutputParser المباشر
         try:
             parsed_plan = parser.parse(content_text)
             result = parsed_plan.model_dump()
@@ -231,7 +222,6 @@ IMPORTANT RULES:
             print(f"[Warning] PydanticOutputParser failed: {parse_err}")
             print("[Info] Trying manual JSON extraction...")
 
-        # الطريقة التانية: استخراج الـ JSON يدوي + تطبيع أسماء المفاتيح والهيكل
         try:
             raw_data = _parse_json_from_text(content_text)
             normalized_data = _normalize_plan_dict(raw_data, questions)
@@ -242,7 +232,6 @@ IMPORTANT RULES:
         except Exception as json_err:
             print(f"[Warning] Manual JSON parsing/normalization also failed: {json_err}")
 
-        # الطريقة التالتة: رجع النص الخام كـ fallback
         print("[Fallback] Returning raw text response.")
 
         fallback_answers = []
