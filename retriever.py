@@ -1,6 +1,6 @@
 import os
 import warnings
-# إخفاء التحذيرات الخاصة بـ Symlinks على ويندوز وتحذيرات الـ Deprecation غير المؤثرة
+
 os.environ["HF_HUB_DISABLE_SYMLINKS_WARNING"] = "1"
 warnings.filterwarnings("ignore", category=UserWarning)
 warnings.filterwarnings("ignore")
@@ -9,14 +9,12 @@ from langchain_community.vectorstores import FAISS
 from langchain_community.embeddings import HuggingFaceEmbeddings
 from langchain_core.documents import Document
 
-# تحديد الموديل اللي هيحول النصوص لأرقام (Embeddings)
+
 embedding_model = HuggingFaceEmbeddings(model_name="BAAI/bge-small-en-v1.5")
 DB_PATH = "vector_db/faiss_index"
 
 def build_knowledge_base():
-    """
-    بناء الفيكتور داتا بيز من المناهج وطرق الشرح اللي إحنا محددينها.
-    """
+
     docs = [
         # ---------------- MATH ----------------
         Document(
@@ -136,10 +134,7 @@ def get_context(topic_name: str, language: str = None) -> str:
 
 
 def get_resource_link(topic_name: str, language: str = None) -> str:
-    """
-    بترجع لينك تعليمي حقيقي وموثوق مرتبط بالموضوع، من قاعدة المعرفة بتاعتنا
-    (مش من توليد الـ LLM، عشان نتجنب لينكات وهمية أو غير موجودة).
-    """
+ 
     if not os.path.exists(DB_PATH):
         build_knowledge_base()
 
@@ -164,6 +159,5 @@ def get_resource_link(topic_name: str, language: str = None) -> str:
     return best_doc.metadata.get("resource_link", "")
 
 
-# سطر إضافي عشان لو حبيت تبني الداتا بيز يدوياً بإنك تشغل الفايل ده مباشرة
 if __name__ == "__main__":
     build_knowledge_base()
