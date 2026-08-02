@@ -9,7 +9,6 @@ class QuestionAnswer(BaseModel):
     explanation: str = Field(description="A short explanation of how to solve or understand the question")
 
 
-# تعريف هيكل البيانات اللي عايزينه يرجع من الموديل
 class HomeworkPlan(BaseModel):
     lesson: str = Field(description="The name of the lesson or topic")
     goal: str = Field(description="The main educational goal of this homework")
