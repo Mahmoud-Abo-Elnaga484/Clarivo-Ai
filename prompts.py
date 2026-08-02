@@ -48,7 +48,6 @@ extra top-level keys, and do NOT change letter casing of any key:
 Return ONLY this JSON object. No markdown code fences, no extra text before or after it.
 """
 
-# تجهيز الـ Prompt (مبقاش محتاج format_instructions من الـ Parser، استبدلناها بمثال صريح فوق)
 plan_prompt = PromptTemplate(
     template=system_template,
     input_variables=["subject", "topic", "grade_level", "questions", "context", "language", "material_context"],
