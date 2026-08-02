@@ -91,8 +91,7 @@ streamlit run app.py
 ---
 
 # 📸 Demo
-
-*(Add screenshots, GIFs, or a demo video of the Clarivo Streamlit <img width="1527" height="692" alt="Screenshot 2026-07-31 155802" src="https://github.com/user-attachments/assets/e408a1f9-4200-4b07-9114-beac25ecda35" />
+ <img width="1527" height="692" alt="Screenshot 2026-07-31 155802" src="https://github.com/user-attachments/assets/e408a1f9-4200-4b07-9114-beac25ecda35" />
 <img width="1535" height="692" alt="Screenshot 2026-07-31 155856" src="https://github.com/user-attachments/assets/0e9ca708-6bc1-478f-b7c7-5d4b955cd47b" />
 
 <img width="1535" height="725" alt="Screenshot 2026-07-31 155935" src="https://github.com/user-attachments/assets/2c9450bc-bd40-4403-a146-666d8fba26e1" />
